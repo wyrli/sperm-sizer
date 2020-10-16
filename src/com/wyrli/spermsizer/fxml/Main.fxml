@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.wyrli.spermsizer.images.ImageCanvas?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.221" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wyrli.spermsizer.fxml.MainController">
+   <top>
+      <MenuBar prefWidth="672.0" BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#addImage" text="  Add Image...">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/picture--plus.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></MenuItem>
+                  <MenuItem fx:id="mExport" mnemonicParsing="false" onAction="#export" text="  Export Measurements...">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/document-export.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </MenuItem>
+                  <MenuItem fx:id="mClearAll" disable="true" mnemonicParsing="false" onAction="#clearAll" text="  Clear All">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="W" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/broom.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </MenuItem>
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#closeApplication" text="  Exit">
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/door-open.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></MenuItem>
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem fx:id="mUndo" disable="true" mnemonicParsing="false" onAction="#undo" text="  Undo">
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/arrow-return-180-left.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="A" control="UP" meta="UP" shift="UP" shortcut="ANY" />
+                     </accelerator></MenuItem>
+                  <MenuItem fx:id="mRedo" disable="true" mnemonicParsing="false" onAction="#redo" text="  Redo">
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/arrow-return.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="D" control="UP" meta="UP" shift="UP" shortcut="ANY" />
+                     </accelerator>
+                  </MenuItem>
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="View">
+            <items>
+              <MenuItem fx:id="mZoomIn" mnemonicParsing="false" onAction="#slideRight" text="  Zoom In">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="Q" control="UP" meta="UP" shift="UP" shortcut="ANY" />
+                     </accelerator>
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/magnifier-zoom-in.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></MenuItem>
+                  <MenuItem fx:id="mZoomOut" mnemonicParsing="false" onAction="#slideLeft" text="  Zoom Out">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="E" control="UP" meta="UP" shift="UP" shortcut="ANY" />
+                     </accelerator>
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/magnifier-zoom-out.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </MenuItem>
+                  <MenuItem fx:id="mRecenter" mnemonicParsing="false" onAction="#slideCenter" text="  Center Image">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="X" control="UP" meta="UP" shift="UP" shortcut="ANY" />
+                     </accelerator>
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/arrow-in.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </MenuItem>
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="mImagePrev" disable="true" mnemonicParsing="false" onAction="#previousImage" text="  Previous Image">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="W" control="UP" meta="UP" shift="UP" shortcut="ANY" />
+                     </accelerator>
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/arrow-180.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </MenuItem>
+                  <MenuItem fx:id="mImageNext" disable="true" mnemonicParsing="false" onAction="#nextImage" text="  Next Image">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="S" control="UP" meta="UP" shift="UP" shortcut="ANY" />
+                     </accelerator>
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/arrow.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </MenuItem>
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+              <items>
+                  <MenuItem mnemonicParsing="false" onAction="#documentation" text="  Documentation">
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/question.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="F1" control="UP" meta="UP" shift="UP" shortcut="ANY" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#about" text="  About">
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/information.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </MenuItem>
+              </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <right>
+      <VBox prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox>
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+               <children>
+                  <Label text="Measurements" />
+                  <Label fx:id="totalResults" text="0" textFill="#00000080">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </HBox>
+            <ListView fx:id="measurements" focusTraversable="false" mouseTransparent="true">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </ListView>
+            <Button fx:id="export" disable="true" focusTraversable="false" mnemonicParsing="false" onAction="#export" prefWidth="200.0" text="Export Measurements">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/document-export.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+            </Button>
+            <HBox>
+               <children>
+                  <Label text="Images" />
+                  <Label fx:id="totalImages" text="0" textFill="#00000080">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </HBox>
+            <ListView fx:id="images" focusTraversable="false" layoutX="10.0" layoutY="235.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </ListView>
+            <Button focusTraversable="false" mnemonicParsing="false" onAction="#addImage" prefWidth="200.0" text="Add Images">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/picture--plus.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+            </Button>
+            <Separator prefWidth="200.0" />
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets left="10.0" right="10.0" top="20.0" />
+         </padding>
+      </VBox>
+   </right>
+   <bottom>
+      <BorderPane prefHeight="0.0" prefWidth="701.0" BorderPane.alignment="CENTER">
+         <right>
+            <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="dimensions" disable="true" layoutX="10.0" layoutY="14.0" text="0 × 0">
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/ruler.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets right="30.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="coordinates" disable="true" layoutX="10.0" layoutY="14.0">
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/guide.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets right="30.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="zoomPercentage" disable="true" text="100%">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Button fx:id="recenter" disable="true" focusTraversable="false" mnemonicParsing="false" onMouseReleased="#slideCenter">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/arrow-in.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="zoomIn" disable="true" focusTraversable="false" mnemonicParsing="false" onMouseReleased="#slideLeft">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/magnifier-zoom-out.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Slider fx:id="slider" blockIncrement="1.0" disable="true" focusTraversable="false" majorTickUnit="9.0" max="36.0" maxWidth="100.0" min="-36.0" minorTickCount="0">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Slider>
+                  <Button fx:id="zoomOut" disable="true" focusTraversable="false" mnemonicParsing="false" onMouseReleased="#slideRight">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/magnifier-zoom-in.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </HBox>
+         </right>
+         <left>
+            <HBox alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="description" text="Description">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+               </children>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </HBox>
+         </left>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+         </padding>
+      </BorderPane>
+   </bottom>
+   <center>
+      <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" hvalue="0.5" style="-fx-background: #cfcfcf;" styleClass="edge-to-edge" vbarPolicy="NEVER" vvalue="0.5" BorderPane.alignment="CENTER">
+         <content>
+            <StackPane fx:id="canvasPane" onMouseDragged="#paneDragged" onMouseExited="#clearMousePosition" onMouseMoved="#updateMousePosition" onMouseReleased="#paneReleased" onScroll="#paneScrolled">
+               <children>
+                  <ImageCanvas fx:id="canvas" onMouseDragged="#canvasDragged" onMouseExited="#clearCoordinates" onMouseMoved="#updateCoordinates" onMousePressed="#canvasPressed" onMouseReleased="#canvasReleased" />
+               </children>
+            </StackPane>
+         </content>
+      </ScrollPane>
+   </center>
+</BorderPane>
