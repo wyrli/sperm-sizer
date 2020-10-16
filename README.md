@@ -1,6 +1,8 @@
 # :straight_ruler: Sperm Sizer
 Sperm Sizer is a tool that helps you **measure the lengths of sperm cells** in digital photos by simply **clicking on the sperm cell** you want to measure. It can be customized to measure different components such as the head, body and tail.
 
+> [**Download Sperm Sizer 1.6**](https://github.com/wyrli/sperm-sizer/releases/)
+
 # :star: Features
 * **Simple Measurements:** Select points along a sperm cell to get a result.
 * **Multicomponent Support:** Measure the entire length of a sperm cell or different parts of it.
@@ -39,7 +41,7 @@ The length of a line is calculated by treating each pixel as a coordinate and su
 | :--: | :--: |
 | ![3-pixel Straight Line](https://i.imgur.com/EmTdcVn.png) | ![2-pixel Diagonal Line](https://i.imgur.com/vqlfpL5.png) |
 
-# :notebook_with_decorative_cover: How It Works
+# :blue_book: How It Works
 ![How It Works](https://i.imgur.com/5GR4pPk.gif)
 
 ### Tracing Algorithm
