@@ -55,7 +55,7 @@ public class Settings {
 
 		if (!loadConfig()) {
 			// Regenerate the configuration file.
-			create(CONFIG);
+			create(PATH_CONFIG, CONFIG);
 			Notification.configRegenerated();
 
 			// Attempt to load once more.
@@ -84,9 +84,9 @@ public class Settings {
 		}
 	}
 
-	private static void create(String fileName) {
+	private static void create(String filePath, String resourceName) {
 		try {
-			Files.copy(Settings.class.getResourceAsStream(fileName), Paths.get(fileName),
+			Files.copy(Settings.class.getResourceAsStream(resourceName), Paths.get(filePath),
 					StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -104,7 +104,7 @@ public class Settings {
 	private static void loadHistory() {
 		// Create if missing.
 		if (!new File(PATH_HISTORY).isFile()) {
-			create(HISTORY);
+			create(PATH_HISTORY, HISTORY);
 		}
 
 		List<String> lines = readAllLines(PATH_HISTORY);
