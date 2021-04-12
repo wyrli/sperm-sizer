@@ -8,6 +8,7 @@ import java.util.concurrent.CountDownLatch;
 
 import com.wyrli.spermsizer.config.Settings;
 import com.wyrli.spermsizer.fxml.ExportController;
+import com.wyrli.spermsizer.info.Error;
 import com.wyrli.spermsizer.info.Notification;
 import com.wyrli.spermsizer.measurements.TraceHistory;
 import com.wyrli.spermsizer.measurements.TracePath;
@@ -47,79 +48,99 @@ public class ExportTask implements Runnable {
 
 	@Override
 	public void run() {
-		String timestamp = new SimpleDateFormat("'Results' (yyyy-MM-dd HH-mm-ss)").format(new Date());
-		String resultsDir = folder + "/" + timestamp;
-		new File(resultsDir).mkdirs();
-		int cropCount = 1;
+		DataWriter writer = null;
 
-		DataWriter writer = new DataWriter(resultsDir, "settings.txt");
-		writer.write("LineSmoothing=" + Settings.lineSmoothing);
-		writer.write("SnapEnabled=" + Settings.snapEnabled);
-		writer.write("TrimRadius=" + Settings.trimRadius);
-		writer.close();
+		try {
+			// Create the directory.
+			String timestamp = new SimpleDateFormat("'Results' (yyyy-MM-dd HH-mm-ss)").format(new Date());
+			String resultsDir = folder + "/" + timestamp;
+			new File(resultsDir).mkdirs();
 
-		writer = new DataWriter(resultsDir, "results.csv");
-		writer.write(getHeaders());
+			// Record the settings used.
+			writer = new DataWriter(resultsDir, "settings.txt");
+			writer.write("LineSmoothing=" + Settings.lineSmoothing);
+			writer.write("SnapEnabled=" + Settings.snapEnabled);
+			writer.write("TrimRadius=" + Settings.trimRadius);
+			writer.close();
 
-		int total = getTotalResults();
-		int processed = 0;
+			// Create the CSV file.
+			writer = new DataWriter(resultsDir, "results.csv");
+			writer.write(getHeaders());
 
-		main: for (String filePath : TraceHistory.ALL.keySet()) {
-			ImagePlus ip = IJ.openImage(filePath);
-			if (ip == null) {
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						Notification.invalidImage(filePath);
-					}
-				});
-				continue;
-			}
+			int processed = 0;
+			int cropCount = 1;
+			int total = getTotalResults();
 
-			BufferedImage bufferedImage = ip.getBufferedImage();
-			Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-
-			canvas.setWidth(image.getWidth());
-			canvas.setHeight(image.getHeight());
-
-			String fileName = getFileName(ip);
-
-			for (TraceResult result : TraceHistory.ALL.get(filePath).getResults()) {
-				processed++;
-
-				if (!result.isSuccessful()) {
+			main: for (String filePath : TraceHistory.ALL.keySet()) {
+				ImagePlus ip = IJ.openImage(filePath);
+				if (ip == null) {
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							Notification.invalidImage(filePath);
+						}
+					});
 					continue;
 				}
 
-				drawMeasurement(gc, image, result);
+				BufferedImage bufferedImage = ip.getBufferedImage();
+				Image image = SwingFXUtils.toFXImage(bufferedImage, null);
 
-				String savedFile = fileName + " (" + cropCount + ").png";
-				saveImage(canvas, gc, result, resultsDir + "/" + savedFile);
-				writer.write("\"" + savedFile + "\"," + result.getLengths());
+				canvas.setWidth(image.getWidth());
+				canvas.setHeight(image.getHeight());
 
-				cropCount++;
+				String fileName = getFileName(ip);
 
-				final double progress = processed / (double) total;
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						controller.setProgress(progress);
+				for (TraceResult result : TraceHistory.ALL.get(filePath).getResults()) {
+					processed++;
+
+					if (!result.isSuccessful()) {
+						continue;
 					}
-				});
 
-				if (cancelled) {
-					break main;
+					drawMeasurement(gc, image, result);
+
+					String savedFile = fileName + " (" + cropCount + ").png";
+					saveImage(canvas, gc, result, resultsDir + "/" + savedFile);
+					writer.write("\"" + savedFile + "\"," + result.getLengths());
+
+					cropCount++;
+
+					final double progress = processed / (double) total;
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							controller.setProgress(progress);
+						}
+					});
+
+					if (cancelled) {
+						break main;
+					}
 				}
 			}
-		}
-		writer.close();
+			writer.close();
 
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				controller.setComplete();
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					controller.setComplete();
+				}
+			});
+		} catch (Exception e) {
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					Exporter.stop();
+					Error.show(e);
+				}
+			});
+			return;
+		} finally {
+			if (writer != null) {
+				writer.close();
 			}
-		});
+		}
 	}
 
 	private static int getTotalResults() {

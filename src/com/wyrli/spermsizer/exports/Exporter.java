@@ -1,17 +1,10 @@
 package com.wyrli.spermsizer.exports;
 
-import java.io.IOException;
-
-import com.wyrli.spermsizer.Main;
 import com.wyrli.spermsizer.fxml.ExportController;
-
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+import com.wyrli.spermsizer.info.Modal;
 
 public class Exporter {
-	private static Stage window;
+	private static Modal<ExportController> modal;
 	private static ExportTask task;
 
 	public static void export(String folder) {
@@ -19,35 +12,15 @@ public class Exporter {
 			task.cancel();
 		}
 
-		ExportController controller;
-		try {
-			controller = createWindow();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return;
-		}
-		window.show();
+		modal = Modal.fromFxml("Export", "Export.fxml");
+		modal.getStage().show();
 
-		task = new ExportTask(folder, controller);
+		task = new ExportTask(folder, modal.getController());
 		new Thread(task).start();
 	}
 
 	public static void stop() {
-		window.close();
+		modal.getStage().close();
 		task.cancel();
-	}
-
-	private static ExportController createWindow() throws IOException {
-		window = new Stage();
-		window.setTitle("Export");
-		window.setResizable(false);
-		window.initModality(Modality.APPLICATION_MODAL);
-		window.initOwner(Main.getPrimaryStage());
-
-		FXMLLoader loader = new FXMLLoader(ExportController.class.getResource("Export.fxml"));
-		Scene scene = new Scene(loader.load());
-		window.setScene(scene);
-
-		return loader.getController();
 	}
 }
