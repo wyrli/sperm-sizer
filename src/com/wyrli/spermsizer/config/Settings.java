@@ -3,12 +3,14 @@ package com.wyrli.spermsizer.config;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wyrli.spermsizer.Main;
 import com.wyrli.spermsizer.info.Notification;
 
 import javafx.scene.paint.Color;
@@ -16,6 +18,11 @@ import javafx.scene.paint.Color;
 public class Settings {
 	private static final String CONFIG = "config.ini";
 	private static final String HISTORY = "history.cache";
+
+	private static final String JAR_FOLDER = getJarFolder();
+	private static final String PATH_CONFIG = Paths.get(JAR_FOLDER, CONFIG).toString();
+	private static final String PATH_HISTORY = Paths.get(JAR_FOLDER, HISTORY).toString();
+
 	private static final String KEY_FOLDER_INPUT = "LastInput";
 	private static final String KEY_FOLDER_OUTPUT = "LastOutput";
 
@@ -67,7 +74,7 @@ public class Settings {
 		}
 
 		try {
-			FileWriter writer = new FileWriter(HISTORY);
+			FileWriter writer = new FileWriter(PATH_HISTORY);
 			writer.write(KEY_FOLDER_INPUT + "=" + folderLastInput);
 			writer.write(System.lineSeparator());
 			writer.write(KEY_FOLDER_OUTPUT + "=" + folderLastOutput);
@@ -96,11 +103,11 @@ public class Settings {
 
 	private static void loadHistory() {
 		// Create if missing.
-		if (!new File(HISTORY).isFile()) {
+		if (!new File(PATH_HISTORY).isFile()) {
 			create(HISTORY);
 		}
 
-		List<String> lines = readAllLines(HISTORY);
+		List<String> lines = readAllLines(PATH_HISTORY);
 		if (lines == null) {
 			return;
 		}
@@ -125,7 +132,7 @@ public class Settings {
 	}
 
 	private static boolean loadConfig() {
-		List<String> lines = readAllLines(CONFIG);
+		List<String> lines = readAllLines(PATH_CONFIG);
 		if (lines == null || !hasAllKeys(lines)) {
 			return false;
 		}
@@ -262,5 +269,22 @@ public class Settings {
 			keys.remove(key);
 		}
 		return keys.isEmpty();
+	}
+
+	/**
+	 * Returns the path to the folder in which this JAR is located. If one could not be found, returns
+	 * an empty string, which represents the current working directory.
+	 */
+	private static String getJarFolder() {
+		File jar;
+
+		try {
+			jar = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+		} catch (SecurityException | URISyntaxException e) {
+			return "";
+		}
+
+		File folder = jar.getParentFile();
+		return folder == null ? "" : folder.getAbsolutePath();
 	}
 }
