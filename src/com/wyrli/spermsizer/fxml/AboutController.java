@@ -11,8 +11,6 @@ import javafx.scene.layout.Border;
 import javafx.stage.Stage;
 
 public class AboutController {
-	private Stage stage;
-
 	@FXML
 	private Label version;
 	@FXML
@@ -32,17 +30,11 @@ public class AboutController {
 
 	@FXML
 	private void close() {
-		if (stage != null) {
-			stage.close();
-		}
+		((Stage) version.getScene().getWindow()).close();
 	}
 
 	@FXML
 	private void openGitHubLink() {
 		Main.showDocument(About.GITHUB_LINK);
-	}
-
-	public void setStage(Stage stage) {
-		this.stage = stage;
 	}
 }
