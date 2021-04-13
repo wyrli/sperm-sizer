@@ -40,8 +40,7 @@ public class Modal<T> {
 		try {
 			scene = new Scene(loader.load());
 		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
+			throw new RuntimeException(e);
 		}
 		stage.setScene(scene);
 

@@ -11,10 +11,10 @@ public class DataWriter {
 	public DataWriter(String folder, String fileName) {
 		FileWriter fw;
 		try {
-			fw = new FileWriter(new File(folder + "/" + fileName));
+			fw = new FileWriter(new File(folder + File.separatorChar + fileName));
 			writer = new BufferedWriter(fw);
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -22,7 +22,7 @@ public class DataWriter {
 		try {
 			writer.write(s + System.lineSeparator());
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -30,7 +30,7 @@ public class DataWriter {
 		try {
 			writer.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 }

@@ -53,7 +53,7 @@ public class ExportTask implements Runnable {
 		try {
 			// Create the directory.
 			String timestamp = new SimpleDateFormat("'Results' (yyyy-MM-dd HH-mm-ss)").format(new Date());
-			String resultsDir = folder + "/" + timestamp;
+			String resultsDir = folder + File.separatorChar + timestamp;
 			new File(resultsDir).mkdirs();
 
 			// Record the settings used.
@@ -101,7 +101,7 @@ public class ExportTask implements Runnable {
 					drawMeasurement(gc, image, result);
 
 					String savedFile = fileName + " (" + cropCount + ").png";
-					saveImage(canvas, gc, result, resultsDir + "/" + savedFile);
+					saveImage(canvas, gc, result, resultsDir + File.separatorChar + savedFile);
 					writer.write("\"" + savedFile + "\"," + result.getLengths());
 
 					cropCount++;
@@ -216,8 +216,7 @@ public class ExportTask implements Runnable {
 		try {
 			latch.await();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
-			return null;
+			throw new RuntimeException(e);
 		}
 
 		return output.getValue();
