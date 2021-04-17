@@ -26,6 +26,8 @@ public class ImageSelector {
 		File last = new File(Settings.folderLastInput);
 		if (last.isDirectory()) {
 			chooser.setInitialDirectory(last);
+		} else {
+			chooser.setInitialDirectory(null);
 		}
 
 		// Prompt the user to select files.

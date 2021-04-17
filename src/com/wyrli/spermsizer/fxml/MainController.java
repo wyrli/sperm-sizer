@@ -375,6 +375,8 @@ public class MainController {
 		File last = new File(Settings.folderLastOutput);
 		if (last.isDirectory()) {
 			chooser.setInitialDirectory(last);
+		} else {
+			chooser.setInitialDirectory(null);
 		}
 
 		File destination = chooser.showDialog(Main.getPrimaryStage());
