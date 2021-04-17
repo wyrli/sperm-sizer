@@ -3,6 +3,8 @@ Sperm Sizer is a tool that helps you **measure the lengths of sperm cells** in d
 
 > [**Download Sperm Sizer 1.6.3**](https://github.com/wyrli/sperm-sizer/releases/tag/1.6.3)
 
+![Sperm Sizer Demo](https://i.imgur.com/aPbazPy.gif)
+
 # :star: Features
 * **Simple Measurements:** Select points along a sperm cell to get a result.
 * **Multicomponent Support:** Measure the entire length of a sperm cell or different parts of it.
