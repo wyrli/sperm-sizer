@@ -1,7 +1,7 @@
 # :straight_ruler: Sperm Sizer
 Sperm Sizer is a tool that helps you **measure the lengths of sperm cells** in digital photos by simply **clicking on the sperm cell** you want to measure. It can be customized to measure different components such as the head, body and tail.
 
-> [**Download Sperm Sizer 1.6.3**](https://github.com/wyrli/sperm-sizer/releases/tag/1.6.3)
+> [**Download Sperm Sizer 1.6.4**](https://github.com/wyrli/sperm-sizer/releases/tag/1.6.4)
 
 ![Sperm Sizer Demo](https://i.imgur.com/aPbazPy.gif)
 
