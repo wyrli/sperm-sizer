@@ -13,11 +13,12 @@ public class Notification {
 		alert.showAndWait();
 	}
 
-	public static void invalidConfig() {
+	public static void generic(String title, String message) {
 		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Invalid Configuration");
-		alert.setHeaderText("config.ini could not be loaded.");
-		alert.setContentText("There is an unknown problem with the file.");
+		alert.setTitle(title);
+		alert.setGraphic(null);
+		alert.setHeaderText(null);
+		alert.setContentText(message);
 		alert.showAndWait();
 	}
 
