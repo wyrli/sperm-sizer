@@ -3,7 +3,7 @@ package com.wyrli.spermsizer.info;
 import com.wyrli.spermsizer.Main;
 
 public class About {
-	public static final String VERSION_INFO = "Version 1.6.4 (17 April 2021)";
+	public static final String VERSION_INFO = "Version 1.6.5 (9 May 2021)";
 	public static final String COPYRIGHT = "Copyright " + '\u00A9' + " 2020-2021 Roger Li. All rights reserved.";
 	public static final String GITHUB_LINK = "https://github.com/wyrli/sperm-sizer";
 
