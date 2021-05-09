@@ -2,6 +2,7 @@ package com.wyrli.spermsizer;
 
 import java.io.IOException;
 
+import com.wyrli.spermsizer.config.FolderHistory;
 import com.wyrli.spermsizer.config.Settings;
 import com.wyrli.spermsizer.fxml.MainController;
 
@@ -28,6 +29,8 @@ public class Main extends Application {
 	@Override
 	public void start(Stage stage) throws IOException {
 		Settings.init();
+		FolderHistory.init();
+
 		primaryStage = stage;
 		hostServices = getHostServices();
 

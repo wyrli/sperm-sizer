@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.List;
 
 import com.wyrli.spermsizer.Main;
+import com.wyrli.spermsizer.config.FolderHistory;
 import com.wyrli.spermsizer.config.Settings;
 import com.wyrli.spermsizer.exports.Exporter;
 import com.wyrli.spermsizer.images.ImageCanvas;
@@ -372,7 +373,7 @@ public class MainController {
 		DirectoryChooser chooser = new DirectoryChooser();
 
 		// Start from the last-visited directory.
-		File last = new File(Settings.folderLastOutput);
+		File last = new File(FolderHistory.getOutputFolder());
 		if (last.isDirectory()) {
 			chooser.setInitialDirectory(last);
 		} else {
@@ -385,7 +386,7 @@ public class MainController {
 		}
 
 		// Remember the last-visited directory.
-		Settings.setFolder(false, destination.getAbsolutePath());
+		FolderHistory.setOutputFolder(destination.getAbsolutePath());
 
 		Exporter.export(destination.getAbsolutePath());
 	}
