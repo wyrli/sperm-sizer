@@ -132,7 +132,7 @@ public class ExportTask implements Runnable {
 				@Override
 				public void run() {
 					Exporter.stop();
-					Error.show(e);
+					Error.show(Error.Type.EXPORT, e);
 				}
 			});
 			return;

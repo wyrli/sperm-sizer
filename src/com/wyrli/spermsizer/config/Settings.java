@@ -1,30 +1,21 @@
 package com.wyrli.spermsizer.config;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.wyrli.spermsizer.Main;
+import com.wyrli.spermsizer.info.Error;
 import com.wyrli.spermsizer.info.Notification;
 
 import javafx.scene.paint.Color;
 
 public class Settings {
-	private static final String CONFIG = "config.ini";
-	private static final String HISTORY = "history.cache";
-
-	private static final String JAR_FOLDER = getJarFolder();
-	private static final String PATH_CONFIG = Paths.get(JAR_FOLDER, CONFIG).toString();
-	private static final String PATH_HISTORY = Paths.get(JAR_FOLDER, HISTORY).toString();
-
-	private static final String KEY_FOLDER_INPUT = "LastInput";
-	private static final String KEY_FOLDER_OUTPUT = "LastOutput";
+	private static final String FILENAME_CONFIG = "config.ini";
+	private static final String PATH_CONFIG = Paths.get(FileUtil.getJarFolder(), FILENAME_CONFIG).toString();
 
 	public static int timeout = 3000;
 
@@ -47,94 +38,69 @@ public class Settings {
 	public static int cropPadding = 20;
 	public static boolean compressCroppedImages = true;
 
-	public static String folderLastInput = "";
-	public static String folderLastOutput = "";
-
+	/** Loads settings from a file. If the file does not exist, it will be created. */
 	public static void init() {
-		loadHistory();
+		List<Exception> exceptions = new ArrayList<Exception>();
 
-		if (!loadConfig()) {
-			// Regenerate the configuration file.
-			create(PATH_CONFIG, CONFIG);
+		// Attempt to load the configuration file.
+		Exception eFirstLoad = loadConfigFile(PATH_CONFIG);
+		if (eFirstLoad == null) {
+			return;
+		}
+		exceptions.add(eFirstLoad);
+
+		// Regenerate the configuration file.
+		Exception eCreate = FileUtil.copyConfigResource(PATH_CONFIG, FILENAME_CONFIG);
+		if (eCreate != null) {
+			exceptions.add(eCreate);
+		}
+
+		// Attempt to load a second time.
+		Exception eSecondLoad = loadConfigFile(PATH_CONFIG);
+		if (eSecondLoad == null) {
 			Notification.configRegenerated();
-
-			// Attempt to load once more.
-			if (!loadConfig()) {
-				Notification.invalidConfig();
-				System.exit(0);
-			}
-		}
-	}
-
-	public static void setFolder(boolean input, String path) {
-		if (input) {
-			folderLastInput = path;
-		} else {
-			folderLastOutput = path;
-		}
-
-		try {
-			FileWriter writer = new FileWriter(PATH_HISTORY);
-			writer.write(KEY_FOLDER_INPUT + "=" + folderLastInput);
-			writer.write(System.lineSeparator());
-			writer.write(KEY_FOLDER_OUTPUT + "=" + folderLastOutput);
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private static void create(String filePath, String resourceName) {
-		try {
-			Files.copy(Settings.class.getResourceAsStream(resourceName), Paths.get(filePath),
-					StandardCopyOption.REPLACE_EXISTING);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private static List<String> readAllLines(String filePath) {
-		try {
-			return Files.readAllLines(Paths.get(filePath));
-		} catch (IOException e) {
-			return null;
-		}
-	}
-
-	private static void loadHistory() {
-		// Create if missing.
-		if (!new File(PATH_HISTORY).isFile()) {
-			create(PATH_HISTORY, HISTORY);
-		}
-
-		List<String> lines = readAllLines(PATH_HISTORY);
-		if (lines == null) {
 			return;
 		}
+		exceptions.add(eSecondLoad);
 
-		// File not designed to be human-editable, reducing need for validation.
-		try {
-			for (String line : lines) {
-				String[] entry = line.split("=");
-				String key = entry[0];
-				String value = entry[1];
-
-				if (key.equals(KEY_FOLDER_INPUT)) {
-					folderLastInput = value;
-				} else if (key.equals(KEY_FOLDER_OUTPUT)) {
-					folderLastOutput = value;
-				}
-			}
-		} catch (Exception e) {
-			// Let file be recreated.
-			return;
-		}
+		// Display an error.
+		Error.show(Error.Type.CONFIG, exceptions);
 	}
 
-	private static boolean loadConfig() {
-		List<String> lines = readAllLines(PATH_CONFIG);
-		if (lines == null || !hasAllKeys(lines)) {
+	/** Import the configuration file via a FileChooser. */
+	public static boolean importManually() {
+		File file = SettingsImporter.askForFile();
+
+		if (file == null) {
 			return false;
+		}
+
+		Exception exception = Settings.loadConfigFile(file.getAbsolutePath());
+		if (exception == null) {
+			Notification.generic("Import Successful", "Your configuration file has been loaded.");
+			return true;
+		}
+
+		if (exception instanceof IOException) {
+			Notification.generic("Import Failed", Main.TITLE + " could not read the selected file.");
+		} else {
+			Notification.generic("Import Failed", "The selected file is not a valid configuration file.");
+		}
+
+		return false;
+	}
+
+	/** Loads properties from a configuration file. */
+	private static Exception loadConfigFile(String filePath) {
+		List<String> lines;
+		try {
+			lines = Files.readAllLines(Paths.get(filePath));
+		} catch (IOException e) {
+			return e;
+		}
+
+		if (lines == null || !hasAllKeys(lines)) {
+			return new IllegalArgumentException("Configuration file has an incorrect format.");
 		}
 
 		try {
@@ -215,7 +181,7 @@ public class Settings {
 
 			// There needs to be at least one label, or there'd be nothing to measure.
 			if (labels.length <= 0) {
-				return false;
+				return new IllegalArgumentException("No labels have been provided.");
 			}
 
 			// e.g. if you have 3 labels, then you'll need to place 4 markers.
@@ -236,12 +202,13 @@ public class Settings {
 				lineColors = correction;
 			}
 
-			return true;
+			return null;
 		} catch (Exception e) {
-			return false;
+			return e;
 		}
 	}
 
+	/** Given the lines of a configuration file, returns whether all required keys are present. */
 	private static boolean hasAllKeys(List<String> lines) {
 		List<String> keys = new ArrayList<String>();
 		keys.add("Timeout");
@@ -269,22 +236,5 @@ public class Settings {
 			keys.remove(key);
 		}
 		return keys.isEmpty();
-	}
-
-	/**
-	 * Returns the path to the folder in which this JAR is located. If one could not be found, returns
-	 * an empty string, which represents the current working directory.
-	 */
-	private static String getJarFolder() {
-		File jar;
-
-		try {
-			jar = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-		} catch (SecurityException | URISyntaxException e) {
-			return "";
-		}
-
-		File folder = jar.getParentFile();
-		return folder == null ? "" : folder.getAbsolutePath();
 	}
 }
