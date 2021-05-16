@@ -202,22 +202,25 @@ public class ExportTask implements Runnable {
 	}
 
 	private static Rectangle2D clampViewportToCanvas(Canvas canvas, Rectangle2D viewport) {
+		double width = viewport.getWidth();
+		double height = viewport.getHeight();
+
 		double minX = viewport.getMinX();
 		if (minX < 0) {
+			width -= Math.abs(minX);
 			minX = 0;
 		}
 
 		double minY = viewport.getMinY();
 		if (minY < 0) {
+			height -= Math.abs(minY);
 			minY = 0;
 		}
 
-		double width = viewport.getWidth();
 		if (viewport.getMinX() + width > canvas.getWidth()) {
 			width = canvas.getWidth() - viewport.getMinX();
 		}
 
-		double height = viewport.getHeight();
 		if (viewport.getMinY() + height > canvas.getHeight()) {
 			height = canvas.getHeight() - viewport.getMinY();
 		}
