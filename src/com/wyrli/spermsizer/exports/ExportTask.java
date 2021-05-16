@@ -185,6 +185,7 @@ public class ExportTask implements Runnable {
 
 	private static void saveImage(Canvas canvas, GraphicsContext gc, TraceResult result, String path) {
 		Rectangle2D viewport = result.getBoundingBox(Settings.cropPadding);
+		viewport = clampViewportToCanvas(canvas, viewport);
 
 		WritableImage wi = new WritableImage((int) viewport.getWidth(), (int) viewport.getHeight());
 		SnapshotParameters sp = new SnapshotParameters();
@@ -198,6 +199,30 @@ public class ExportTask implements Runnable {
 		}
 
 		new FileSaver(crop).saveAsPng(path);
+	}
+
+	private static Rectangle2D clampViewportToCanvas(Canvas canvas, Rectangle2D viewport) {
+		double minX = viewport.getMinX();
+		if (minX < 0) {
+			minX = 0;
+		}
+
+		double minY = viewport.getMinY();
+		if (minY < 0) {
+			minY = 0;
+		}
+
+		double width = viewport.getWidth();
+		if (viewport.getMinX() + width > canvas.getWidth()) {
+			width = canvas.getWidth() - viewport.getMinX();
+		}
+
+		double height = viewport.getHeight();
+		if (viewport.getMinY() + height > canvas.getHeight()) {
+			height = canvas.getHeight() - viewport.getMinY();
+		}
+
+		return new Rectangle2D(minX, minY, width, height);
 	}
 
 	// Takes a snapshot on the FX application thread.
