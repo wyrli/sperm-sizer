@@ -117,6 +117,24 @@ public class TraceResult {
 					maxY = p.y;
 				}
 			}
+
+			Rectangle2D label = path.getLabel().getBoundingBox();
+
+			if (label.getMinX() < minX) {
+				minX = (int) label.getMinX();
+			}
+
+			if (label.getMinY() < minY) {
+				minY = (int) label.getMinY();
+			}
+
+			if (label.getMaxX() > maxX) {
+				maxX = (int) label.getMaxX();
+			}
+
+			if (label.getMaxY() > maxY) {
+				maxY = (int) label.getMaxY();
+			}
 		}
 
 		int width = maxX - minX;

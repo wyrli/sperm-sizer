@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.wyrli.spermsizer.config.Settings;
 
+import javafx.geometry.VPos;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.text.Font;
 
@@ -15,17 +16,24 @@ public class TracePath {
 
 	private int index;
 	private List<Point> path;
+	private PathLabel label;
 
 	public TracePath(int index) {
 		this.index = index;
 		path = new ArrayList<Point>();
 	}
 
-	public void setPath(List<Point> path) {
+	public void update(List<Point> path, double canvasWidth) {
 		if (path.size() < 2) {
 			throw new IllegalArgumentException("Path must contain at least 2 points.");
 		}
 		this.path = path;
+
+		// Update the label.
+		Point midpoint = path.get(path.size() / 2);
+		String text = Settings.labels[index] + " = " + LENGTH_FORMAT.format(getLength());
+		Font font = new Font(Settings.labelSize);
+		label = new PathLabel(midpoint, text, font, canvasWidth);
 	}
 
 	public double getLength() {
@@ -61,12 +69,15 @@ public class TracePath {
 		}
 
 		gc.setFill(Settings.labelColor);
-		gc.setFont(new Font(Settings.labelSize));
+		gc.setTextBaseline(VPos.CENTER);
 
-		Point mid = path.get(path.size() / 2);
-		String length = LENGTH_FORMAT.format(getLength());
+		gc.setFont(label.getFont());
+		gc.setTextAlign(label.getAlignment());
+		gc.fillText(label.getText(), label.getLocation().x, label.getLocation().y);
+	}
 
-		gc.fillText(Settings.labels[index] + " = " + length, mid.x, mid.y);
+	public PathLabel getLabel() {
+		return label;
 	}
 
 	public List<Point> getPoints() {

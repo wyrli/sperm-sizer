@@ -170,7 +170,7 @@ public class TraceTask implements Runnable {
 				}
 			}
 
-			result.getPaths().get(i).setPath(subPath);
+			result.getPaths().get(i).update(subPath, imageCanvas.getWidth());
 		}
 
 		return true;
