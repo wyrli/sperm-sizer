@@ -1,0 +1,8 @@
+/bin/
+/.settings/
+.project
+.classpath
+
+# Sperm Sizer
+config.ini
+history.cache
