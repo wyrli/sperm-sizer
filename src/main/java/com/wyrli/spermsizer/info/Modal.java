@@ -35,7 +35,7 @@ public class Modal<T> {
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.initOwner(Main.getPrimaryStage());
 
-		FXMLLoader loader = new FXMLLoader(MainController.class.getResource(fxml));
+		FXMLLoader loader = new FXMLLoader(MainController.class.getResource("/fxml/" + fxml));
 		Scene scene;
 		try {
 			scene = new Scene(loader.load());

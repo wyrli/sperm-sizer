@@ -1,7 +1,9 @@
 package com.wyrli.spermsizer.config;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -15,9 +17,11 @@ public class FileUtil {
 
 	/** Copies a resource in the 'config' package to a certain location. */
 	public static Exception copyConfigResource(String filePath, String resourceName) {
-		try {
-			Files.copy(Settings.class.getResourceAsStream(resourceName), Paths.get(filePath),
-					StandardCopyOption.REPLACE_EXISTING);
+		try (InputStream input = Settings.class.getResourceAsStream("/config/" + resourceName)) {
+			if (input == null) {
+				return new FileNotFoundException("Resource missing: " + resourceName);
+			}
+			Files.copy(input, Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			return e;
 		}

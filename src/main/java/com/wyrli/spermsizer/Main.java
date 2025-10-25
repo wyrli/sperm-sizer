@@ -38,7 +38,7 @@ public class Main extends Application {
 		stage.setMinWidth(MIN_WIDTH);
 		stage.setMinHeight(MIN_HEIGHT);
 
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Main.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Main.fxml"));
 		BorderPane root = loader.load();
 		controller = loader.getController();
 
