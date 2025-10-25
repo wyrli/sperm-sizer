@@ -98,7 +98,7 @@ public class TraceTask implements Runnable {
 
 		// Produce a skeleton.
 		bp = new BinaryProcessor(((ByteProcessor) image.getProcessor()), Settings.timeout);
-		boolean success = bp.skeletonizeInterruptible();
+		boolean success = bp.skeletonize();
 		if (!success) {
 			return false;
 		}
