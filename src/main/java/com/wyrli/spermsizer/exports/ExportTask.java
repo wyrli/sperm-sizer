@@ -191,7 +191,12 @@ public class ExportTask implements Runnable {
 		SnapshotParameters sp = new SnapshotParameters();
 		sp.setViewport(viewport);
 
-		ImagePlus crop = new ImagePlus("", SwingFXUtils.fromFXImage(takeSnapshot(canvas, sp, wi), null));
+		// Use 32-bit ARGB by default.
+		BufferedImage buffered = SwingFXUtils.fromFXImage(takeSnapshot(canvas, sp, wi), null);
+		BufferedImage rgb = new BufferedImage(buffered.getWidth(), buffered.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		rgb.getGraphics().drawImage(buffered, 0, 0, null);
+
+		ImagePlus crop = new ImagePlus("", rgb);
 
 		// Convert to 8-bit color to reduce file size.
 		if (Settings.compressCroppedImages) {
