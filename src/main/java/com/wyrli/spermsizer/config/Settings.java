@@ -42,6 +42,15 @@ public class Settings {
 	public static void init() {
 		List<Exception> exceptions = new ArrayList<Exception>();
 
+		// On macOS, generate the configuration file if missing.
+		// Avoids displaying "missing config" notification on the program's first run.
+		if (FileUtil.isMac()) {
+			File configFile = new File(PATH_CONFIG);
+			if (!configFile.exists()) {
+				FileUtil.copyConfigResource(PATH_CONFIG, FILENAME_CONFIG);
+			}
+		}
+
 		// Attempt to load the configuration file.
 		Exception eFirstLoad = loadConfigFile(PATH_CONFIG);
 		if (eFirstLoad == null) {
