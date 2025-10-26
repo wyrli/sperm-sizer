@@ -1,7 +1,8 @@
 # :straight_ruler: Sperm Sizer
 Sperm Sizer is a tool that helps you **measure the lengths of sperm cells** in digital photos by simply **clicking on the sperm cell** you want to measure. It can be customized to measure different components such as the head, body and tail.
 
-> [**Download Sperm Sizer 1.6.6**](https://github.com/wyrli/sperm-sizer/releases/tag/1.6.6)
+> ![Windows](https://img.shields.io/badge/Windows-0078D6?logo=data:image/svg+xml;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwQAADsEBuJFr7QAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMS42/U4J6AAAAIdJREFUSEvtlEEKgCAQRV10idpFl+5CLtx6IO0PjCJh8XXhaj48lEl7NkguDySl5MGpeC1TMZGJaky0TBQaUdAylVFRBJcStUzFYYO0g+UGuyLz3pouIiqtYDhwuE2Q+evZL0tF3U/9YL51OB0dbJi/DDpSwcuXXW9pQxHZL4iPidqYaFKU8wM2whcrlRTsmgAAAABJRU5ErkJggg==) ![macOS](https://img.shields.io/badge/macOS-000000?logo=apple&logoColor=white)  
+> [**Download Sperm Sizer 1.7**](https://github.com/wyrli/sperm-sizer/releases/tag/1.7)
 
 ![Sperm Sizer Demo](https://i.imgur.com/aPbazPy.gif)
 
@@ -36,7 +37,7 @@ Please cite this paper if you decide to use Sperm Sizer in your publication.
 3. Export the measurements using the `Export Measurements` button.
 
 ### Requirements
-Sperm Sizer requires [**Java 8 or later**](https://www.java.com/en/download/manual.jsp) to run. Make sure you have Java installed on your device.
+Older versions of Sperm Sizer (1.6.6 and below) require Java 8 to run. Newer versions (1.7 and above) no longer require Java.
 
 # :microscope: Measurements
 ### Unit Conversions
