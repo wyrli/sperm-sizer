@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 
 public class FolderHistory {
 	private static final String FILENAME_HISTORY = "history.cache";
-	private static final String PATH_HISTORY = Paths.get(FileUtil.getJarFolder(), FILENAME_HISTORY).toString();
+	private static final String PATH_HISTORY = Paths.get(FileUtil.getStorageFolder(), FILENAME_HISTORY).toString();
 
 	private static final String KEY_FOLDER_INPUT = "LastInput";
 	private static final String KEY_FOLDER_OUTPUT = "LastOutput";

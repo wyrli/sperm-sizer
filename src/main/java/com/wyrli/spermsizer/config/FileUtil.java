@@ -38,6 +38,24 @@ public class FileUtil {
 		}
 	}
 
+	public static boolean isMac() {
+		return System.getProperty("os.name").toLowerCase().contains("mac");
+	}
+
+	public static String getStorageFolder() {
+		if (isMac()) {
+			// On macOS, use "~/Library/Application Support/Sperm Sizer".
+			File appSupportDir = new File(System.getProperty("user.home"), "Library/Application Support/Sperm Sizer");
+			if (!appSupportDir.exists()) {
+				appSupportDir.mkdirs();
+			}
+			return appSupportDir.getAbsolutePath();
+		}
+
+		// On non-macOS (Windows/Linux), use folder that EXE/JAR resides in.
+		return getJarFolder();
+	}
+
 	/** Returns the JAR folder path. If not found, returns the current working directory. */
 	public static String getJarFolder() {
 		try {

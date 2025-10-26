@@ -15,7 +15,7 @@ import javafx.scene.paint.Color;
 
 public class Settings {
 	private static final String FILENAME_CONFIG = "config.ini";
-	private static final String PATH_CONFIG = Paths.get(FileUtil.getJarFolder(), FILENAME_CONFIG).toString();
+	private static final String PATH_CONFIG = Paths.get(FileUtil.getStorageFolder(), FILENAME_CONFIG).toString();
 
 	public static int timeout = 3000;
 
