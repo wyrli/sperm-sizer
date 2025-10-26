@@ -1,7 +1,7 @@
 # :straight_ruler: Sperm Sizer
 Sperm Sizer is a tool that helps you **measure the lengths of sperm cells** in digital photos by simply **clicking on the sperm cell** you want to measure. It can be customized to measure different components such as the head, body and tail.
 
-> ![Windows](https://img.shields.io/badge/Windows-0078D6?logo=data:image/svg+xml;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwQAADsEBuJFr7QAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMS42/U4J6AAAAIdJREFUSEvtlEEKgCAQRV10idpFl+5CLtx6IO0PjCJh8XXhaj48lEl7NkguDySl5MGpeC1TMZGJaky0TBQaUdAylVFRBJcStUzFYYO0g+UGuyLz3pouIiqtYDhwuE2Q+evZL0tF3U/9YL51OB0dbJi/DDpSwcuXXW9pQxHZL4iPidqYaFKU8wM2whcrlRTsmgAAAABJRU5ErkJggg==) ![macOS](https://img.shields.io/badge/macOS-000000?logo=apple&logoColor=white)  
+> [![Windows](https://img.shields.io/badge/Windows-0078D6?logo=data:image/svg+xml;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwQAADsEBuJFr7QAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMS42/U4J6AAAAIdJREFUSEvtlEEKgCAQRV10idpFl+5CLtx6IO0PjCJh8XXhaj48lEl7NkguDySl5MGpeC1TMZGJaky0TBQaUdAylVFRBJcStUzFYYO0g+UGuyLz3pouIiqtYDhwuE2Q+evZL0tF3U/9YL51OB0dbJi/DDpSwcuXXW9pQxHZL4iPidqYaFKU8wM2whcrlRTsmgAAAABJRU5ErkJggg==)](https://github.com/wyrli/sperm-sizer/releases/download/1.7/sperm-sizer-1.7-windows-x64.zip) [![macOS](https://img.shields.io/badge/macOS-000000?logo=apple&logoColor=white)](https://github.com/wyrli/sperm-sizer/releases/download/1.7/sperm-sizer-1.7-macos-arm64.zip)  
 > [**Download Sperm Sizer 1.7**](https://github.com/wyrli/sperm-sizer/releases/tag/1.7)
 
 ![Sperm Sizer Demo](https://i.imgur.com/aPbazPy.gif)
