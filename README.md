@@ -37,7 +37,7 @@ Please cite this paper if you decide to use Sperm Sizer in your publication.
 3. Export the measurements using the `Export Measurements` button.
 
 ### Requirements
-Older versions of Sperm Sizer (1.6.6 and below) require Java 8 to run. Newer versions (1.7 and above) no longer require Java.
+Older versions of Sperm Sizer (1.6.6 and below) require Java 8 to run. Newer versions (1.7 and above) no longer require Java, as it is included with the application.
 
 # :microscope: Measurements
 ### Unit Conversions
