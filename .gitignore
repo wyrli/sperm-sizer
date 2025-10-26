@@ -1,8 +1,13 @@
+# Project files
 /bin/
 /.settings/
+/.idea/
 .project
 .classpath
 
-# Sperm Sizer
-config.ini
-history.cache
+# Maven
+/.mvn/
+/target/
+
+# Custom
+/distribution/
