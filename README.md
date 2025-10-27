@@ -76,7 +76,9 @@ The length of a line is calculated by treating each pixel as a coordinate and su
 **Note:** Snapping, trim radius and Gaussian blur intensity can be configured in the settings.
 
 # :gear: Settings
-Sperm Sizer can be configured via [config.ini](/src/com/wyrli/spermsizer/config/config.ini), a file located in the same directory as Sperm Sizer.
+Sperm Sizer can be configured via [config.ini](/src/main/resources/config/config.ini), a file located in the same directory as Sperm Sizer.
+
+**Note:** On macOS, this file is located in `~/Library/Application Support/Sperm Sizer/` instead.
 
 # :bulb: Tips
 ### Optimal Conditions
@@ -107,7 +109,7 @@ When selecting the first or last point on a sperm cell, you have the option of d
 ### Custom Components
 ![Two-point Measurement](https://i.imgur.com/JH69uz5.gif)
 
-To measure different components, edit the `Labels` property in [config.ini](/src/com/wyrli/spermsizer/config/config.ini). For example, if you only want to measure the entire length of a sperm cell, use `Labels=Sperm Cell`. This would measure **1 component** named "Sperm Cell", requiring **2 inputs**.
+To measure different components, edit the `Labels` property in [config.ini](/src/main/resources/config/config.ini). For example, if you only want to measure the entire length of a sperm cell, use `Labels=Sperm Cell`. This would measure **1 component** named "Sperm Cell", requiring **2 inputs**.
 
 **Note:** By default, `Labels=Head,Body,Tail`. This means **3 components** are measured ("Head", "Body" and "Tail"), requiring **4 inputs**.
 
